@@ -32,6 +32,8 @@
             flex-direction: column;
             align-items: center;
             transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            width: 100%;
+            padding: 20px;
         }
 
         .header {
@@ -41,7 +43,7 @@
 
         .header h1 {
             font-family: 'Cinzel', serif;
-            font-size: 3.2rem;
+            font-size: clamp(2rem, 5vw, 3.2rem);
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -52,7 +54,7 @@
         }
 
         .header p {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             font-weight: 300;
             color: #a9b0c0;
             letter-spacing: 2px;
@@ -61,8 +63,9 @@
 
         .wheel-container {
             position: relative;
-            width: 450px;
-            height: 450px;
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 1 / 1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -118,10 +121,11 @@
         /* Frosted Glass Center */
         .center-circle {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 20%;
+            height: 20%;
             background: rgba(10, 11, 16, 0.8);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 2px solid #d4af37;
             border-radius: 50%;
             z-index: 6;
@@ -134,8 +138,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
+            width: 25%;
+            height: 25%;
             background: #d4af37;
             border-radius: 50%;
             box-shadow: 0 0 10px #fcf6ba;
@@ -149,7 +153,7 @@
             font-weight: 700;
             padding: 16px 45px;
             border: none;
-            border-radius: 4px; /* Sharp, modern edges */
+            border-radius: 4px;
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px rgba(212, 175, 55, 0.3);
             transition: all 0.4s ease;
@@ -159,9 +163,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
             position: relative;
             overflow: hidden;
+            z-index: 20;
         }
 
         .btn-gold::before {
@@ -212,8 +216,9 @@
             text-align: center;
             z-index: 100;
             transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 30px rgba(255,255,255,0.02);
-            min-width: 380px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(255,255,255,0.02);
+            width: 90%;
+            max-width: 450px;
         }
 
         #result-display.show {
@@ -225,7 +230,7 @@
         #result-display h2 {
             font-family: 'Cinzel', serif;
             color: #d4af37;
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 2.5rem);
             margin-bottom: 15px;
             font-weight: 600;
         }
@@ -238,17 +243,13 @@
             line-height: 1.5;
         }
 
-        #code-container {
-            margin: 30px 0;
-        }
-
         /* Premium "Engraved" Code Box */
         .code-box {
             background: rgba(0, 0, 0, 0.6);
             border-top: 1px solid rgba(212, 175, 55, 0.5);
             border-bottom: 1px solid rgba(212, 175, 55, 0.5);
             padding: 18px;
-            margin-top: 15px;
+            margin: 15px 0 30px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 1.6rem;
             font-weight: 500;
@@ -266,11 +267,13 @@
             background: rgba(15, 17, 26, 0.6);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            padding: 60px;
+            padding: 60px 40px;
             border-radius: 8px;
             border: 1px solid rgba(212, 175, 55, 0.2);
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             animation: elegantFadeIn 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            width: 90%;
+            max-width: 600px;
         }
 
         #landing-page h1 {
@@ -278,13 +281,13 @@
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 2.8rem;
+            font-size: clamp(2rem, 5vw, 2.8rem);
             margin-bottom: 20px;
         }
 
         .phone-number {
             font-family: 'Cinzel', serif;
-            font-size: 2.8rem;
+            font-size: clamp(2rem, 6vw, 2.8rem);
             font-weight: 600;
             color: #fcf6ba;
             margin: 25px 0 40px 0;
@@ -297,13 +300,9 @@
         }
 
         @media (max-width: 500px) {
-            .wheel-container { width: 320px; height: 320px; }
-            .header h1 { font-size: 2.2rem; }
-            .header p { font-size: 0.9rem; }
-            #result-display { min-width: 90%; padding: 40px 20px; }
-            #landing-page { padding: 40px 20px; }
-            .phone-number { font-size: 2rem; }
             .btn-gold { font-size: 0.9rem; padding: 14px 30px; letter-spacing: 2px;}
+            #landing-page { padding: 40px 20px; }
+            #result-display { padding: 40px 20px; }
         }
     </style>
 </head>
@@ -318,7 +317,7 @@
         <div class="wheel-container">
             <div class="pointer"></div>
             <div class="wheel-border"></div>
-            <canvas id="wheelCanvas" width="500" height="500"></canvas>
+            <canvas id="wheelCanvas" width="1000" height="1000"></canvas>
             <div class="center-circle"></div>
         </div>
 
@@ -349,7 +348,7 @@
         <div class="phone-number">8309388689</div>
         
         <a href="#" id="whatsapp-link" target="_blank" class="btn-gold">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 10px;">
                 <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c-.003 1.396.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.005-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
             </svg>
             Contact Concierge
@@ -419,16 +418,16 @@
             const number = availableNumbers[randomIndex];
             availableNumbers.splice(randomIndex, 1);
             
-            // Format number to always be 3 digits (e.g., 007, 042, 125) for a premium feel
+            // Format number to always be 3 digits (e.g., 007, 042, 125)
             const formattedNumber = String(number).padStart(3, '0');
             return `MPL-${formattedNumber}`;
         }
 
-        // Wheel Drawing Logic
+        // Wheel Drawing Logic (Using scaled 1000x1000 dimensions for Retina crispness)
         const numSlices = prizes.length;
         const sliceAngle = (2 * Math.PI) / numSlices;
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
+        const centerX = canvas.width / 2; // 500
+        const centerY = canvas.height / 2; // 500
         const radius = centerX;
 
         function drawWheel() {
@@ -446,7 +445,7 @@
                 ctx.fill();
                 
                 // Extremely subtle inner border
-                ctx.lineWidth = 1;
+                ctx.lineWidth = 2;
                 ctx.strokeStyle = "rgba(212, 175, 55, 0.2)";
                 ctx.stroke();
 
@@ -460,28 +459,32 @@
                 
                 // Elegant shadow
                 ctx.shadowColor = "rgba(0,0,0,0.5)";
-                ctx.shadowBlur = 4;
-                ctx.shadowOffsetX = 1;
-                ctx.shadowOffsetY = 1;
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetX = 2;
+                ctx.shadowOffsetY = 2;
 
                 // Dynamic text formatting based on length using the premium font
+                // Sizes are doubled here because the canvas internal resolution is 1000x1000
                 if (prizes[i].split(' ').length > 2) {
-                    ctx.font = "600 13px 'Cinzel', serif";
+                    ctx.font = "600 28px 'Cinzel', serif";
                     const words = prizes[i].split(' ');
                     const line1 = words.slice(0, 2).join(' ').toUpperCase();
                     const line2 = words.slice(2).join(' ').toUpperCase();
-                    ctx.fillText(line1, radius - 40, -10);
-                    ctx.fillText(line2, radius - 40, 12);
+                    ctx.fillText(line1, radius - 80, -20);
+                    ctx.fillText(line2, radius - 80, 24);
                 } else {
-                    ctx.font = "800 26px 'Cinzel', serif";
-                    ctx.fillText(prizes[i].toUpperCase(), radius - 40, 0);
+                    ctx.font = "800 52px 'Cinzel', serif";
+                    ctx.fillText(prizes[i].toUpperCase(), radius - 80, 0);
                 }
 
                 ctx.restore();
             }
         }
 
-        drawWheel();
+        // Ensure fonts are fully loaded before rendering the canvas so it doesn't draw default fonts
+        document.fonts.ready.then(() => {
+            drawWheel();
+        });
 
         // Spin Logic
         let currentRotation = 0;
@@ -493,8 +496,9 @@
             spinBtn.disabled = true;
             spinBtn.innerText = "Processing...";
             
+            // Calculate randomized extra spin
             const randomDegree = Math.floor(Math.random() * 360);
-            const totalSpin = 1800 + randomDegree; 
+            const totalSpin = 1800 + randomDegree; // Minimum 5 full spins
             currentRotation += totalSpin;
 
             canvas.style.transform = `rotate(${currentRotation}deg)`;
@@ -504,12 +508,14 @@
                 spinBtn.disabled = false;
                 spinBtn.innerText = "Initiate Spin";
                 
+                // Absolute precise math to determine winning slice based on canvas rotation
                 const normalizedRotation = currentRotation % 360;
+                // Pointer is exactly at 270 degrees (Top)
                 const winningAngle = (270 - normalizedRotation + 360) % 360;
                 const winnerIndex = Math.floor(winningAngle / (360 / numSlices));
                 
                 showResult(prizes[winnerIndex]);
-            }, 4000); 
+            }, 4000); // Matches CSS transition duration
         });
 
         function showResult(prize) {
@@ -533,7 +539,44 @@
                 popupActionBtn.onclick = closePopup;
 
             } else {
+                // Winning Condition
                 currentGeneratedCode = generateUniqueCode();
                 
                 popupTitle.innerText = "Offer Unlocked";
-                popupSubtitle.innerHTML = `Yo
+                popupSubtitle.innerHTML = `Your profile has been allocated <strong style="color:#d4af37; font-weight:600;">${prize}</strong> for IELTS preparation.`;
+                
+                popupCode.innerText = currentGeneratedCode;
+                codeContainer.style.display = "block";
+                
+                landingPrize.innerText = prize;
+                landingCode.innerText = currentGeneratedCode;
+
+                // Dynamic WhatsApp Integration Link
+                const phoneNumber = "918309388689"; 
+                const message = `Good day, I have successfully secured ${prize} via the Exclusive Wheel. My authorization code is ${currentGeneratedCode}. Kindly assist me with the next steps.`;
+                whatsappLink.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                popupActionBtn.innerText = "Authorize Code";
+                popupActionBtn.onclick = goToLandingPage;
+            }
+
+            resultDisplay.classList.add('show');
+        }
+
+        function closePopup() {
+            resultDisplay.classList.remove('show');
+        }
+
+        function goToLandingPage() {
+            resultDisplay.classList.remove('show');
+            mainView.style.opacity = '0';
+            
+            // Wait for fade-out, then display landing screen
+            setTimeout(() => {
+                mainView.style.display = 'none';
+                landingPage.style.display = 'flex';
+            }, 600);
+        }
+    </script>
+</body>
+</html>
