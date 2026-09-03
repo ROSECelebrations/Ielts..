@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Festive Spin Wheel</title>
+    <title>Festival Spin Wheel</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@400;600&display=swap');
 
@@ -167,12 +167,22 @@
             font-size: 2.5rem;
             margin-bottom: 10px;
         }
+        
+        #popup-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #e8dcc4;
+        }
+
+        #code-container {
+            margin: 20px 0;
+        }
 
         .code-box {
             background: #1b3d2b;
             border: 1px dashed #d4af37;
             padding: 10px;
-            margin: 20px 0;
+            margin-top: 10px;
             font-size: 1.5rem;
             font-weight: bold;
             color: #fcf6ba;
@@ -225,7 +235,7 @@
 
     <div class="main-view" id="main-view">
         <div class="header">
-            <h1>Festive Fortune Spin</h1>
+            <h1>IELTS Festive Wheel</h1>
             <p>Spin to unlock your exclusive course discount</p>
         </div>
 
@@ -240,13 +250,15 @@
     </div>
 
     <div id="result-display">
-        <h2>Congratulations!</h2>
-        <p>You have unlocked <strong id="prize-text" style="color:#d4af37; font-size:1.3rem;"></strong> for your IELTS Prep.</p>
+        <h2 id="popup-title">Congratulations!</h2>
+        <p id="popup-subtitle"></p>
         
-        <p style="margin-top: 15px; font-size: 0.9rem; color: #e8dcc4;">Your Unique Access Code:</p>
-        <div class="code-box" id="popup-code"></div>
+        <div id="code-container">
+            <p style="font-size: 0.9rem; color: #e8dcc4;">Your Unique Access Code:</p>
+            <div class="code-box" id="popup-code"></div>
+        </div>
 
-        <button class="btn-gold" style="font-size: 1rem; padding: 10px 25px;" onclick="goToLandingPage()">Redeem Now</button>
+        <button class="btn-gold" id="popup-action-btn" style="font-size: 1rem; padding: 10px 25px;"></button>
     </div>
 
     <div id="landing-page">
@@ -277,18 +289,29 @@
         const landingPage = document.getElementById('landing-page');
 
         // Dynamic Elements
-        const prizeText = document.getElementById('prize-text');
+        const popupTitle = document.getElementById('popup-title');
+        const popupSubtitle = document.getElementById('popup-subtitle');
+        const codeContainer = document.getElementById('code-container');
         const popupCode = document.getElementById('popup-code');
+        const popupActionBtn = document.getElementById('popup-action-btn');
         const landingPrize = document.getElementById('landing-prize');
         const landingCode = document.getElementById('landing-code');
         const whatsappLink = document.getElementById('whatsapp-link');
 
-        // Prize Configuration
-        const prizes = ["50% OFF", "40% OFF", "20% OFF", "30% OFF", "15% OFF"];
+        // Updated Prize Configuration (7 Options)
+        const prizes = [
+            "50% OFF", 
+            "Better Luck Next Time", 
+            "40% OFF", 
+            "Another Spin Chance", 
+            "30% OFF", 
+            "20% OFF", 
+            "15% OFF"
+        ];
         
-        // Colors
-        const colors = ["#1b3d2b", "#c5a059", "#2e4f3b", "#e8dcc4", "#4a7055"];
-        const textColors = ["#fcf6ba", "#1b3d2b", "#fcf6ba", "#1b3d2b", "#fcf6ba"];
+        // Expanded 7-color palette to match the slices
+        const colors = ["#1b3d2b", "#c5a059", "#2e4f3b", "#e8dcc4", "#4a7055", "#0d2117", "#d4af37"];
+        const textColors = ["#fcf6ba", "#1b3d2b", "#fcf6ba", "#1b3d2b", "#fcf6ba", "#c5a059", "#1b3d2b"];
 
         // Unique Code Generation Logic (1 to 1000, no repeats)
         let availableNumbers = Array.from({length: 1000}, (_, i) => i + 1);
@@ -300,9 +323,7 @@
             }
             const randomIndex = Math.floor(Math.random() * availableNumbers.length);
             const number = availableNumbers[randomIndex];
-            
             availableNumbers.splice(randomIndex, 1);
-            
             return `Maple - ${number}`;
         }
 
@@ -320,22 +341,38 @@
                 const startAngle = i * sliceAngle;
                 const endAngle = startAngle + sliceAngle;
 
+                // Draw Slice
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.arc(centerX, centerY, radius, startAngle, endAngle);
                 ctx.fillStyle = colors[i];
                 ctx.fill();
 
+                // Draw Text
                 ctx.save();
                 ctx.translate(centerX, centerY);
                 ctx.rotate(startAngle + sliceAngle / 2);
                 ctx.textAlign = "right";
                 ctx.textBaseline = "middle";
                 ctx.fillStyle = textColors[i];
-                ctx.font = "bold 32px 'Poppins', sans-serif";
                 ctx.shadowColor = "rgba(0,0,0,0.3)";
                 ctx.shadowBlur = 4;
-                ctx.fillText(prizes[i], radius - 30, 0);
+
+                // Dynamic text formatting based on length
+                if (prizes[i].split(' ').length > 2) {
+                    // Split long phrases like "Better Luck Next Time" into two lines
+                    ctx.font = "bold 15px 'Poppins', sans-serif";
+                    const words = prizes[i].split(' ');
+                    const line1 = words.slice(0, 2).join(' ');
+                    const line2 = words.slice(2).join(' ');
+                    ctx.fillText(line1, radius - 30, -10);
+                    ctx.fillText(line2, radius - 30, 10);
+                } else {
+                    // Standard short text
+                    ctx.font = "bold 28px 'Poppins', sans-serif";
+                    ctx.fillText(prizes[i], radius - 30, 0);
+                }
+
                 ctx.restore();
             }
         }
@@ -370,25 +407,60 @@
         });
 
         function showResult(prize) {
-            currentGeneratedCode = generateUniqueCode();
             
-            prizeText.innerText = prize;
-            popupCode.innerText = currentGeneratedCode;
-            
-            landingPrize.innerText = prize;
-            landingCode.innerText = currentGeneratedCode;
+            // Logic Branching based on outcome
+            if (prize === "Better Luck Next Time") {
+                popupTitle.innerText = "Oops!";
+                popupTitle.style.color = "#c5a059";
+                popupSubtitle.innerHTML = "Better luck next time. You didn't win a discount today.";
+                
+                codeContainer.style.display = "none"; // Hide code box
+                
+                popupActionBtn.innerText = "Close";
+                popupActionBtn.onclick = closePopup;
+                
+            } else if (prize === "Another Spin Chance") {
+                popupTitle.innerText = "Spin Again!";
+                popupTitle.style.color = "#d4af37";
+                popupSubtitle.innerHTML = "You landed on a free spin! Try your luck once more.";
+                
+                codeContainer.style.display = "none"; // Hide code box
+                
+                popupActionBtn.innerText = "Spin Now";
+                popupActionBtn.onclick = closePopup;
 
-            // Generate Dynamic WhatsApp URL
-            // Ensure you include your country code (e.g., 91 for India) without the plus sign.
-            const phoneNumber = "918309388689"; 
-            const message = `Hello! I just spun the IELTS Ivy Wheel and won ${prize}. My unique code is: ${currentGeneratedCode}. How can I redeem this?`;
-            
-            // Set the href attribute to open WhatsApp with the pre-filled message
-            whatsappLink.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            } else {
+                // A Discount was Won
+                currentGeneratedCode = generateUniqueCode();
+                
+                popupTitle.innerText = "Congratulations!";
+                popupTitle.style.color = "#d4af37";
+                popupSubtitle.innerHTML = `You have unlocked <strong style="color:#d4af37; font-size:1.3rem;">${prize}</strong> for your IELTS Prep.`;
+                
+                popupCode.innerText = currentGeneratedCode;
+                codeContainer.style.display = "block"; // Show code box
+                
+                landingPrize.innerText = prize;
+                landingCode.innerText = currentGeneratedCode;
+
+                // Update WhatsApp Link
+                const phoneNumber = "918309388689"; 
+                const message = `Hello! I just spun the IELTS Ivy Wheel and won ${prize}. My unique code is: ${currentGeneratedCode}. How can I redeem this?`;
+                whatsappLink.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                popupActionBtn.innerText = "Redeem Now";
+                popupActionBtn.onclick = goToLandingPage;
+            }
 
             resultDisplay.classList.add('show');
         }
 
+        // Action when user dismisses a non-winning popup
+        function closePopup() {
+            resultDisplay.classList.remove('show');
+        }
+
+        // Action when user clicks redeem on a winning popup
         function goToLandingPage() {
             resultDisplay.classList.remove('show');
             mainView.style.opacity = '0';
